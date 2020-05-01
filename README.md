@@ -1,3 +1,5 @@
+{{/*
+
 # Hugo CustomShort codes
 
 A collection of custom shortcodes for the Hugo static site generator.
@@ -42,3 +44,5 @@ Parameters are:
                             from the site param named "highlightTheme". If this
                             site param is not set, then the default style is
                             applied.
+
+*/}}
