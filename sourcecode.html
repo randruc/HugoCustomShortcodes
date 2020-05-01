@@ -1,0 +1,81 @@
+{{/*
+    Copyright 2020 Remi Andruccioli
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+        http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+*/}}
+
+{{/*
+    sourcecode
+    
+    A custom shortcode for the Hugo static site generator.
+
+    This custom shortcode is a wrapper for the Hugo "highlight" shortcode. It allows highlighting of source code
+    read from a file.
+
+    Usage example: {{<  sourcecode file="sourcecode/demo.c" language="c" from="3" to="15" >}}
+
+    Parameters are:
+        file      (mandatory) : The file to read content from. The path is relative to the calling page.
+        language  (mandatory) : The source language.
+        from      (optional)  : The first line to read.
+        to        (optional)  : The last line to read.
+        highlight (optional)  : The set of lines to highlight.
+        linum     (optional)  : The setting of this option to any value will switch on line numbers printing.
+        style     (optional)  : The style to use. This option has the priority. If this option is not set, then the style is taken
+                                from the site param named "highlightTheme". If this site param is not set, then the default style is
+                                applied.
+*/}}
+
+{{ $start := 1 }}
+{{ if .Get "from" }}
+    {{ $start = (int (.Get "from")) }}
+{{ end }}
+
+{{ $end := 999999 }}
+{{ if .Get "to" }}
+    {{ $end = (int (.Get "to")) }}
+{{ end }}
+
+{{ $numberToTake := (add 1 (sub $end $start)) }}
+
+{{ $file := (path.Join .Page.File.Dir (.Get "file")) | readFile }}
+{{ $file := split $file "\n" }}
+
+{{ if (ne 1 $start) }}
+    {{ $file = (after (sub $start 1) $file) }}
+{{ end }}
+
+{{ $file := first $numberToTake $file }}
+{{ $file := delimit $file "\n" }}
+
+{{ $hlLines := "" }}
+{{ if .Get "highlight" }}
+    {{ $hlLines = (print ",hl_lines=" (.Get "highlight")) }}
+{{ end }}
+
+{{ $liNum := "" }}
+{{ if .Get "linum" }}
+    {{ $liNum = (print "linenos=table, linenostart=" $start) }}
+{{ else }}
+    {{ $liNum = "linenos=" }}
+{{ end }}
+
+{{ $style := "" }}
+{{ if .Get "style"}}
+    {{ $style = (print ", style=" (.Get "style")) }}
+{{ else if $.Site.Params.highlightTheme }}
+    {{ $style = (print ", style=" $.Site.Params.highlightTheme) }}
+{{ end }}
+
+{{- highlight $file (.Get "language") (print $liNum $style $hlLines) -}}
