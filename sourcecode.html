@@ -12,7 +12,6 @@
     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
     See the License for the specific language governing permissions and
     limitations under the License.
-
 */}}
 
 {{/*
@@ -48,9 +47,14 @@
     {{ $hlLines = (print ",hl_lines=" (.Get "highlight")) }}
 {{ end }}
 
+{{ $liNumStart := $start }}
+{{ if .Get "linumstart" }}
+    {{ $liNumStart = (int (.Get "linumstart")) }}
+{{ end }}
+
 {{ $liNum := "" }}
 {{ if .Get "linum" }}
-    {{ $liNum = (print "linenos=table, linenostart=" $start) }}
+    {{ $liNum = (print "linenos=table, linenostart=" $liNumStart) }}
 {{ else }}
     {{ $liNum = "linenos=" }}
 {{ end }}

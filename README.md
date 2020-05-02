@@ -31,18 +31,20 @@ Usage example:
 
 Parameters are:
 
-    file      (mandatory) : The file to read content from. The path is
-                            relative to the calling page.
-    language  (mandatory) : The source language.
-    from      (optional)  : The first line to read.
-    to        (optional)  : The last line to read.
-    highlight (optional)  : The set of lines to highlight.
-    linum     (optional)  : The setting of this option to any value will switch
-                            on line numbers printing.
-    style     (optional)  : The style to use. This option has the priority. If
-                            this option is not set, then the style is taken
-                            from the site param named "highlightTheme". If this
-                            site param is not set, then the default style is
-                            applied.
+    file       (mandatory) : The file to read content from. The path is
+                             relative to the calling page.
+    language   (mandatory) : The source language.
+    from       (optional)  : The first line to read.
+    to         (optional)  : The last line to read.
+    highlight  (optional)  : The set of lines to highlight.
+    linum      (optional)  : The setting of this option to any value will switch
+                             on line numbers printing.
+    linumstart (optional)  : The line number used to start counting when
+                             printing lines.
+    style      (optional)  : The style to use. This option has the priority. If
+                             this option is not set, then the style is taken
+                             from the site param named "highlightTheme". If this
+                             site param is not set, then the default style is
+                             applied.
 
 */}}
